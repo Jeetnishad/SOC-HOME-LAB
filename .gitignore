@@ -1,0 +1,14 @@
+*.log
+*.tmp
+*.zip
+*.7z
+*.iso
+
+.env
+.vscode/
+.idea/
+
+__pycache__/
+
+Thumbs.db
+.DS_Store
