@@ -1,10 +1,12 @@
-# Incident Report 01 – Windows Brute Force Authentication Attempt
+# Incident Report 01 – Windows Authentication Failure Detection
 
 ## Executive Summary
 
-This incident report documents the detection and investigation of a simulated brute force authentication attack performed within an authorized SOC Home Lab environment. The attack consisted of multiple failed login attempts against a Windows 10 endpoint from a Kali Linux attacker machine.
+This incident report documents the detection and investigation of multiple failed Windows authentication attempts generated within an authorized SOC Home Lab environment.
 
-The activity was successfully detected by Wazuh through Windows Security Event Logs collected by the Wazuh Agent. The generated alerts were analyzed to determine the nature of the attack, identify relevant Indicators of Compromise (IoCs), and validate the effectiveness of the security monitoring configuration.
+The activity was intentionally performed to validate Wazuh's ability to detect Windows authentication failures using Windows Security Event Logs. Wazuh successfully identified the failed logon attempts, generated security alerts, and provided sufficient forensic evidence for investigation.
+
+No unauthorized access was achieved during this simulation.
 
 ---
 
@@ -13,42 +15,52 @@ The activity was successfully detected by Wazuh through Windows Security Event L
 | Field | Value |
 |--------|-------|
 | Incident ID | IR-001 |
-| Incident Name | Windows Brute Force Authentication Attempt |
-| Category | Authentication Attack |
-| Severity | Medium *(To be confirmed after alert generation)* |
+| Incident Name | Windows Authentication Failure Detection |
+| Category | Authentication Failure |
+| Severity | Medium |
 | Status | Closed |
 | Environment | Authorized SOC Home Lab |
-| Detection Tool | Wazuh SIEM |
-| Endpoint | Windows 10 |
-| Attacker Machine | Kali Linux |
+| Detection Tool | Wazuh SIEM 4.14.7 |
+| Endpoint | Windows 10 Home |
+| Log Source | Windows Security Logs |
 
 ---
 
 # Incident Description
 
-A brute force attack was simulated by repeatedly attempting authentication against a Windows 10 system using invalid credentials. These failed authentication attempts generated Windows Security Events, which were collected by the Wazuh Agent and forwarded to the Wazuh Manager.
+Multiple failed authentication attempts were intentionally generated on the Windows endpoint using invalid credentials from the Windows lock screen.
 
-Wazuh successfully identified the suspicious authentication activity and generated alerts for further investigation.
+Each failed login generated Windows Security Event ID 4625. These events were collected by the Wazuh Agent and forwarded to the Wazuh Manager.
+
+Wazuh successfully detected the failed authentication attempts and generated alerts indicating repeated logon failures.
 
 ---
 
 # Detection Summary
 
-The attack was detected through Windows Security Event Logs monitored by the Wazuh Agent.
+The authentication failures were successfully detected by Wazuh using predefined Windows Security detection rules.
 
-The generated alerts indicated repeated failed authentication attempts, allowing the SOC analyst to identify potential unauthorized access attempts against the monitored endpoint.
+Generated Alert Information:
+
+| Field | Value |
+|--------|-------|
+| Rule ID | 60122 |
+| Rule Description | Logon Failure – Unknown user or bad password |
+| Rule Level | 5 |
+| Detection Status | Successful |
 
 ---
 
-# Attack Timeline
+# Timeline of Events
 
 | Time | Activity |
 |------|----------|
-| Attack Started | To be updated |
-| Failed Login Events Generated | To be updated |
-| Wazuh Alert Generated | To be updated |
-| Investigation Started | To be updated |
-| Investigation Completed | To be updated |
+| User Account Locked | Windows Lock Screen |
+| Multiple Failed Login Attempts | Generated |
+| Windows Event ID 4625 Created | Yes |
+| Wazuh Agent Collected Events | Yes |
+| Wazuh Alert Generated | Yes |
+| Investigation Completed | Successful |
 
 ---
 
@@ -56,69 +68,64 @@ The generated alerts indicated repeated failed authentication attempts, allowing
 
 | Asset | Description |
 |--------|-------------|
-| Windows 10 Endpoint | Target system |
-| Wazuh Manager | Security monitoring platform |
-| Wazuh Dashboard | Alert visualization |
-| Windows Security Logs | Log source |
+| Windows 10 Home | Monitored Endpoint |
+| Wazuh Agent | Log Collection |
+| Wazuh Manager | Alert Generation |
+| Wazuh Dashboard | Alert Investigation |
 
 ---
 
 # Indicators of Compromise (IoCs)
 
-The following indicators will be confirmed during the investigation:
+The investigation identified the following indicators:
 
-- Source IP Address
-- Target Username
-- Windows Event ID(s)
-- Wazuh Rule ID
-- Alert Level
-- Authentication Failure Events
-
-> **This section will be updated after completing the practical lab.**
+- Windows Security Event ID: **4625**
+- Authentication Failure
+- Invalid Password Attempts
+- Wazuh Rule ID: **60122**
+- Rule Level: **5**
+- Authentication Failure Alerts
 
 ---
 
 # Investigation Findings
 
-The investigation will focus on:
+The investigation confirmed:
 
-- Authentication failure events
-- Number of failed login attempts
-- Source IP address
-- Target account
-- Wazuh rule triggered
-- Alert severity
-- Event timestamps
-- Correlation of Windows Security Events
+- Multiple failed authentication attempts were generated.
+- Windows Security Logs successfully recorded Event ID 4625.
+- Wazuh Agent forwarded the logs to the Wazuh Manager.
+- Wazuh detection rules successfully generated authentication failure alerts.
+- The alerts accurately represented the simulated attack.
 
 ---
 
 # Root Cause Analysis
 
-The activity was intentionally generated within the authorized SOC Home Lab environment to validate the organization's detection capability against brute force authentication attacks.
+The authentication failures were intentionally generated as part of a controlled SOC Home Lab exercise to validate detection capabilities.
 
-No unauthorized access was obtained during the simulation.
+No malicious activity occurred outside the authorized testing environment.
 
 ---
 
 # Response Actions
 
-The following actions were performed:
+The following actions were performed during the investigation:
 
-- Reviewed Wazuh alerts
-- Verified Windows Security Events
-- Correlated authentication failures
-- Validated detection rules
-- Confirmed successful alert generation
-- Documented investigation findings
+- Reviewed generated Wazuh alerts.
+- Verified Windows Security Event Logs.
+- Confirmed Event ID 4625.
+- Validated Rule ID 60122.
+- Correlated authentication failures.
+- Documented investigation findings.
 
 ---
 
 # MITRE ATT&CK Mapping
 
-| Technique ID | Technique |
-|--------------|-----------|
-| T1110 | Brute Force |
+| Tactic | Technique |
+|---------|-----------|
+| Credential Access | T1110 – Brute Force |
 
 Detailed mapping is available in:
 
@@ -130,24 +137,27 @@ MITRE-Mapping/T1110-Bruteforce.md
 
 # Lessons Learned
 
-- Wazuh successfully detected repeated authentication failures.
-- Windows Security Logs provided valuable forensic evidence.
-- Authentication monitoring is effective for detecting brute force attacks.
-- Proper endpoint logging significantly improves SOC visibility.
-- Security monitoring should be continuously validated through controlled attack simulations.
+- Wazuh successfully detected failed authentication attempts.
+- Windows Security Event Logs provided reliable forensic evidence.
+- Authentication monitoring is effective for detecting brute force activity.
+- Security monitoring should be validated regularly through controlled attack simulations.
 
 ---
 
 # Recommendations
 
-- Enable account lockout policies.
-- Monitor repeated authentication failures.
-- Review authentication alerts regularly.
-- Correlate failed logins with other suspicious activities.
-- Periodically validate detection rules using controlled security testing.
+- Implement strong password policies.
+- Configure account lockout policies.
+- Continuously monitor authentication failures.
+- Review failed login alerts regularly.
+- Perform periodic validation of SIEM detection rules.
 
 ---
 
 # Conclusion
 
-The simulated brute force attack was successfully detected and investigated within the SOC Home Lab environment. Wazuh generated actionable alerts that enabled effective analysis of authentication events, demonstrating the platform's capability to detect unauthorized login attempts and support incident response activities.
+The Windows authentication failure simulation successfully demonstrated Wazuh's ability to detect failed login attempts using Windows Security Event ID 4625.
+
+The generated alerts, rule information, and Windows Security Logs provided sufficient evidence for a SOC analyst to investigate authentication-related security events and document the incident following standard incident response procedures.
+
+The lab successfully validated the authentication monitoring capabilities of the Wazuh SIEM platform within the authorized SOC Home Lab environment.
