@@ -1,1 +1,0 @@
-# Lab Diagrams & Images
