@@ -2,131 +2,135 @@
 
 ## Objective
 
-The objective of this lab is to simulate a Windows brute force authentication attack in a controlled home lab environment and validate Wazuh's ability to detect multiple failed login attempts. This lab demonstrates how security monitoring solutions can identify authentication-based attacks, generate alerts, and provide valuable forensic evidence for incident investigation.
+The objective of this lab is to simulate multiple failed Windows authentication attempts in an authorized SOC Home Lab environment and verify Wazuh's ability to detect authentication failures through Windows Security Event Logs.
+
+The lab demonstrates how a Security Information and Event Management (SIEM) platform detects failed logon attempts, generates alerts, and provides security analysts with the information required to investigate authentication-related incidents.
 
 ---
 
 # Lab Overview
 
-Brute force attacks are one of the most common techniques used by attackers to gain unauthorized access to systems by repeatedly attempting different passwords against a valid user account.
+Brute force attacks are one of the most common techniques used by attackers to gain unauthorized access to Windows systems by repeatedly attempting invalid credentials.
 
-In this lab, multiple failed Windows login attempts will be generated from the Kali Linux attacker machine against the Windows 10 victim machine. The generated authentication events will be collected by the Wazuh Agent, forwarded to the Wazuh Manager, and analyzed through the Wazuh Dashboard.
+Since the target system in this lab is running Windows 10 Home Edition, Remote Desktop (RDP) based brute force simulation was not applicable because Windows Home does not provide an RDP server.
 
-The collected logs will later be investigated to understand how Wazuh detects authentication attacks and how these events map to the MITRE ATT&CK framework.
+Instead, multiple failed Windows logon attempts were intentionally generated from the Windows lock screen to create Windows Security Event ID 4625 events. These events were collected by the Wazuh Agent, forwarded to the Wazuh Manager, and successfully detected by Wazuh.
 
 ---
 
 # Lab Environment
 
 | Component | Details |
-|-----------|---------|
+|----------|---------|
 | SIEM Platform | Wazuh 4.14.7 |
-| Attacker Machine | Kali Linux |
-| Victim Machine | Windows 10 |
+| Attacker System | Windows Local Authentication Simulation |
+| Monitored Endpoint | Windows 10 Home |
+| Log Collection | Wazuh Agent |
+| Endpoint Monitoring | Sysmon |
 | Virtualization | Oracle VirtualBox |
-| Network Mode | NAT |
-| Endpoint Monitoring | Wazuh Agent |
-| System Monitoring | Sysmon |
+| Operating System | Kali Linux & Windows 10 Home |
 
 ---
 
 # Attack Scenario
 
-An attacker attempts to gain unauthorized access to a Windows system by repeatedly submitting invalid credentials.
+An attacker repeatedly attempts to authenticate using invalid credentials.
 
-The repeated authentication failures generate Windows Security Events, which are collected by the Wazuh Agent and forwarded to the Wazuh Manager for analysis.
+Every failed authentication generates Windows Security Event ID 4625.
 
-The generated alerts allow a SOC analyst to identify suspicious authentication activity and begin an incident investigation.
+The Wazuh Agent forwards these events to the Wazuh Manager, where predefined Windows Security detection rules identify suspicious authentication failures and generate alerts for investigation.
 
 ---
 
 # Prerequisites
 
-Before performing this lab, the following requirements must be completed:
+The following components were configured before performing the lab:
 
 - Kali Linux installed
-- Windows 10 installed
-- Wazuh Server operational
-- Wazuh Dashboard accessible
+- Windows 10 Home installed
+- Wazuh 4.14.7 installed
 - Windows Agent connected
 - Sysmon installed and configured
-- Windows Security logs successfully forwarded to Wazuh
+- Windows Security Events successfully forwarded to Wazuh
+- Wazuh Dashboard operational
+
+---
+
+# Attack Simulation
+
+The Windows workstation was locked using **Windows + L**.
+
+Five consecutive authentication attempts were performed using an intentionally incorrect password.
+
+Each failed authentication generated Windows Security Event ID 4625, which was forwarded to Wazuh for analysis.
 
 ---
 
 # Detection Workflow
 
-1. Attacker performs multiple failed authentication attempts.
-2. Windows generates Security Event Logs.
-3. Wazuh Agent collects the logs.
-4. Logs are forwarded to the Wazuh Manager.
-5. Wazuh applies detection rules.
-6. Security alerts are generated.
-7. SOC analyst investigates the alerts.
-
----
-
-# Commands Executed
-
-The commands used during this lab will be documented after the practical exercise.
-
-> **To be updated after completing the attack simulation.**
+1. Windows generated failed authentication events.
+2. Windows Security Log recorded Event ID 4625.
+3. Wazuh Agent collected the events.
+4. Events were forwarded to the Wazuh Manager.
+5. Windows Security detection rules were evaluated.
+6. Wazuh generated authentication failure alerts.
+7. The alerts were investigated using the Wazuh Dashboard.
 
 ---
 
 # Evidence Collected
 
-The following evidence will be collected during the practical lab:
+The following evidence was collected during the investigation:
 
-- Failed login attempts
-- Windows Security Event Logs
-- Wazuh Alert
-- Alert Details
-- Event Log Analysis
-- Dashboard Screenshots
+- Failed Windows logon attempts
+- Windows Security Event ID 4625
+- Wazuh authentication failure alerts
+- Rule details
+- Security event timeline
+
+Screenshots collected:
+
+- Failed Login Screen
+- Wazuh Alert List
+- Wazuh Rule Details
 
 ---
 
 # Wazuh Alert Analysis
 
-This section will include:
+| Field | Value |
+|--------|-------|
+| Rule ID | 60122 |
+| Rule Level | 5 |
+| Rule Description | Logon Failure – Unknown user or bad password |
+| Log Source | Windows Security Events |
+| Detection Status | Successful |
 
-- Rule ID
-- Alert Level
-- Rule Description
-- Timestamp
-- Agent Name
-- Source IP Address
-- Event Details
-
-> **To be updated after alert generation.**
+The generated alerts confirmed that Wazuh successfully detected repeated failed authentication attempts performed during the simulation.
 
 ---
 
 # Log Analysis
 
-This section will contain the analysis of Windows Security Event Logs related to the brute force activity.
+Windows Security Event ID **4625** was generated for every failed authentication attempt.
 
-The investigation will focus on identifying:
+The collected logs confirmed:
 
-- Authentication failures
-- Username targeted
-- Source IP address
-- Event IDs
-- Log source
-- Detection timeline
-
-> **To be updated after log collection.**
+- Failed authentication activity
+- Invalid password usage
+- Successful log forwarding
+- Wazuh alert generation
+- Proper Windows Security monitoring
 
 ---
 
 # MITRE ATT&CK Mapping
 
-| Technique | Description |
-|-----------|-------------|
-| T1110 | Brute Force |
+| Tactic | Technique |
+|---------|-----------|
+| Credential Access | T1110 – Brute Force |
 
-A detailed MITRE mapping is documented separately under:
+Detailed mapping is available in:
 
 ```
 
@@ -136,25 +140,22 @@ MITRE-Mapping/T1110-Bruteforce.md
 
 ---
 
-# Expected Outcome
-
-At the end of this lab, Wazuh should successfully detect repeated failed authentication attempts and generate security alerts that can be investigated by a SOC analyst.
-
----
-
 # Skills Demonstrated
 
-- Windows Log Analysis
-- Wazuh Alert Investigation
+- Windows Security Log Analysis
 - Authentication Monitoring
-- Security Event Analysis
+- Wazuh Alert Investigation
+- Windows Event Investigation
+- Security Event Correlation
 - MITRE ATT&CK Mapping
-- SOC Incident Investigation
+- SOC Incident Analysis
 
 ---
 
 # Conclusion
 
-This lab demonstrates how Wazuh can detect brute force authentication attempts against Windows systems by monitoring Security Event Logs and generating actionable alerts. The collected evidence provides SOC analysts with the information required to investigate unauthorized authentication attempts and respond appropriately.
+The brute force authentication simulation successfully demonstrated Wazuh's capability to detect failed Windows authentication attempts using Windows Security Event ID 4625.
 
-The incident report and MITRE ATT&CK mapping for this activity are documented separately within this repository.
+Although Remote Desktop brute force simulation was not applicable because the endpoint was running Windows 10 Home Edition, the generated authentication failures produced the same Windows security events required for detection.
+
+The lab validated that Wazuh correctly collected Windows Security Logs, generated authentication alerts, and provided sufficient forensic evidence for SOC investigation and incident reporting.
