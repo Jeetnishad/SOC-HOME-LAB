@@ -1,142 +1,135 @@
-# MITRE ATT&CK Mapping – Brute Force (T1110)
+# MITRE ATT&CK Mapping – T1110: Brute Force
 
 ## Overview
 
-This document maps the brute force authentication simulation performed in LAB-01 to the MITRE ATT&CK framework. The objective is to demonstrate how repeated failed authentication attempts can be detected, investigated, and associated with a known adversary technique.
+This document maps the authentication failure activity generated during LAB-01 to the MITRE ATT&CK framework.
+
+The objective of this lab was to validate Wazuh's ability to detect repeated failed Windows authentication attempts and correlate the observed activity with the appropriate ATT&CK technique.
 
 ---
 
-# Technique Information
+# ATT&CK Technique Information
 
 | Field | Value |
 |-------|-------|
 | Technique ID | T1110 |
 | Technique Name | Brute Force |
-| Tactic | Credential Access |
+| ATT&CK Tactic | Credential Access |
 | Data Source | Windows Security Event Logs |
-| Detection Platform | Wazuh SIEM |
-| Endpoint | Windows 10 |
+| Detection Platform | Wazuh SIEM 4.14.7 |
+| Endpoint | Windows 10 Home |
 
 ---
 
 # Technique Description
 
-Brute Force (T1110) is a Credential Access technique in which an attacker repeatedly attempts different passwords or authentication credentials until valid credentials are discovered.
+Brute Force (T1110) is a Credential Access technique in which an attacker repeatedly attempts to authenticate using invalid credentials until a valid password is discovered.
 
-Attackers commonly target local Windows accounts, Remote Desktop Protocol (RDP), SSH, VPN gateways, web applications, and other authentication services.
+Repeated authentication failures generate Windows Security Event ID 4625, allowing security monitoring platforms such as Wazuh to detect suspicious authentication activity.
 
-Repeated authentication failures often generate Windows Security Events that can be monitored by SIEM platforms such as Wazuh.
+Although this lab used Windows local authentication instead of Remote Desktop Protocol (RDP), the resulting security events represent the same authentication failure behavior required to detect brute force activity.
 
 ---
 
-# Detection Strategy
+# Attack Simulation
 
-The detection strategy for this lab is based on monitoring Windows Security Event Logs collected by the Wazuh Agent.
+The Windows workstation was locked using the Windows + L shortcut.
 
-The overall detection workflow is:
+Five consecutive failed authentication attempts were performed using an intentionally incorrect password.
 
-1. Multiple failed authentication attempts are generated.
-2. Windows records Security Events.
-3. Wazuh Agent collects the logs.
-4. Logs are forwarded to the Wazuh Manager.
-5. Detection rules identify suspicious authentication activity.
-6. Wazuh generates security alerts for investigation.
+Each failed authentication generated Windows Security Event ID 4625, which was collected by the Wazuh Agent and forwarded to the Wazuh Manager for analysis.
+
+---
+
+# Detection Workflow
+
+1. Multiple failed login attempts were generated.
+2. Windows Security Log recorded Event ID 4625.
+3. Wazuh Agent collected the events.
+4. Events were forwarded to the Wazuh Manager.
+5. Wazuh evaluated Windows Security detection rules.
+6. Rule ID 60122 generated authentication failure alerts.
+7. The alerts were investigated using the Wazuh Dashboard.
+
+---
+
+# Wazuh Detection Details
+
+| Field | Value |
+|--------|-------|
+| Rule ID | 60122 |
+| Rule Description | Logon Failure – Unknown user or bad password |
+| Rule Level | 5 |
+| Windows Event ID | 4625 |
+| Detection Result | Successful |
 
 ---
 
 # Evidence Collected
 
-The following evidence will be collected during the practical lab:
+The following evidence was collected during the investigation:
 
-- Windows Security Events
-- Failed authentication logs
-- Wazuh security alerts
-- Alert details
-- Event timestamps
-- Source IP address
-- Target username
-- Rule ID
-- Alert level
-
-> **This section will be updated after completing the attack simulation.**
-
----
-
-# Detection Logic
-
-The detection relies on:
-
-- Monitoring repeated failed authentication events
-- Identifying abnormal authentication behavior
-- Correlating multiple failed login attempts
-- Generating alerts for suspicious authentication activity
-
----
-
-# Wazuh Detection
-
-The following information will be documented after the practical lab:
-
-| Item | Value |
-|------|-------|
-| Rule ID | To be updated |
-| Alert Level | To be updated |
-| Rule Description | To be updated |
-| Event ID | To be updated |
-| Agent Name | To be updated |
+- Windows Security Event ID 4625
+- Wazuh authentication failure alerts
+- Rule ID 60122
+- Rule details
+- Failed authentication timeline
+- Alert investigation screenshots
 
 ---
 
 # Indicators of Compromise (IoCs)
 
-The investigation will identify:
+The investigation identified the following indicators:
 
-- Source IP Address
-- Target Username
-- Windows Event ID(s)
-- Failed Login Attempts
-- Wazuh Rule ID
-- Alert Severity
-- Authentication Failure Pattern
+- Repeated failed authentication attempts
+- Windows Security Event ID 4625
+- Invalid password attempts
+- Wazuh Rule ID 60122
+- Authentication failure alerts
 
 ---
 
-# ATT&CK Mapping Summary
+# Detection Logic
 
-| ATT&CK Tactic | ATT&CK Technique |
-|--------------|------------------|
-| Credential Access | T1110 – Brute Force |
+The detection is based on monitoring Windows Security authentication events.
+
+When repeated failed login attempts occur, Windows generates Event ID 4625.
+
+The Wazuh Agent forwards these events to the Wazuh Manager, where Windows Security detection rules identify authentication failures and generate alerts for investigation.
 
 ---
 
 # Defensive Recommendations
 
-The following security controls help reduce the risk of brute force attacks:
+To reduce the risk of brute force attacks, organizations should:
 
 - Enforce strong password policies.
 - Configure account lockout policies.
-- Enable multi-factor authentication (MFA) where possible.
-- Monitor failed authentication attempts.
-- Generate alerts for repeated login failures.
-- Regularly review authentication logs.
-- Continuously validate detection rules through controlled security testing.
+- Enable Multi-Factor Authentication (MFA) where applicable.
+- Continuously monitor authentication failures.
+- Investigate repeated failed login attempts.
+- Validate SIEM detection rules through controlled testing.
 
 ---
 
-# SOC Analyst Notes
+# SOC Analyst Investigation Checklist
 
-During an investigation, the SOC analyst should verify:
+During authentication failure investigations, analysts should verify:
 
-- Number of failed login attempts
-- Source IP address
+- Source of the authentication attempt
 - Target account
-- Event timestamps
-- Wazuh alert details
-- Correlation with other authentication events
-- Whether the activity represents a legitimate user mistake or a malicious attack
+- Number of failed login attempts
+- Windows Event ID
+- Wazuh Rule ID
+- Alert severity
+- Related authentication activity
+- Evidence of successful compromise
 
 ---
 
 # Conclusion
 
-The brute force simulation demonstrates how Wazuh can detect repeated failed authentication attempts using Windows Security Event Logs. Mapping this activity to MITRE ATT&CK Technique T1110 helps standardize detection, investigation, and reporting while improving threat visibility within the SOC environment.
+The authentication failure simulation successfully validated Wazuh's capability to detect Windows Security Event ID 4625 and generate authentication failure alerts.
+
+The observed activity was correctly mapped to MITRE ATT&CK Technique T1110 (Brute Force), demonstrating how security monitoring solutions can detect and investigate authentication-based attacks within an authorized SOC Home Lab environment.
