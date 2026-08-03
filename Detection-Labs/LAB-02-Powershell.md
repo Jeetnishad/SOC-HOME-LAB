@@ -1,137 +1,142 @@
-# LAB 02 – PowerShell Activity Detection using Wazuh
+# LAB 02 – PowerShell Detection
 
 ## Objective
 
-The objective of this lab is to simulate PowerShell activity within an authorized SOC Home Lab environment and validate Wazuh's ability to detect PowerShell execution through Windows event logs and Sysmon telemetry.
-
-The lab demonstrates how PowerShell commands can be monitored, analyzed, and investigated using Wazuh SIEM.
+The objective of this lab is to simulate PowerShell activity on a Windows 10 endpoint and verify that Wazuh detects and logs the execution. This lab demonstrates endpoint visibility, process monitoring, and PowerShell event collection using Sysmon and Wazuh.
 
 ---
 
-# Lab Overview
-
-PowerShell is one of the most widely used administrative tools in Windows environments. It is also frequently abused by attackers to execute malicious commands, download payloads, establish persistence, and perform post-exploitation activities.
-
-In this lab, several PowerShell commands will be executed to generate Windows events. These events will be collected by the Wazuh Agent and analyzed through the Wazuh Dashboard.
-
----
-
-# Lab Environment
+## Lab Environment
 
 | Component | Details |
-|----------|---------|
-| SIEM Platform | Wazuh 4.14.7 |
-| Operating System | Windows 10 Home |
-| Monitoring Agent | Wazuh Agent |
-| Endpoint Telemetry | Sysmon |
-| Virtualization | Oracle VirtualBox |
-| Dashboard | Wazuh Dashboard |
+|----------|----------|
+| SIEM | Wazuh 4.14.7 |
+| Attacker Machine | Kali Linux |
+| Target Machine | Windows 10 |
+| Endpoint Agent | Wazuh Agent |
+| Monitoring Tool | Sysmon |
+| Virtualization | VirtualBox |
+| Network | NAT |
 
 ---
 
-# Attack Scenario
+## Lab Topology
 
-PowerShell commands are executed on the monitored Windows endpoint.
-
-Windows records PowerShell execution events.
-
-Sysmon captures process creation activity.
-
-The Wazuh Agent forwards the logs to the Wazuh Manager, where detection rules analyze the events and generate alerts for investigation.
+```
++-------------+        NAT Network        +-----------------+
+| Kali Linux  | -----------------------> | Windows 10 VM   |
+| (Attacker)  |                          | Wazuh Agent     |
++-------------+                          | Sysmon          |
+                                         +--------+--------+
+                                                  |
+                                                  |
+                                           +------v------+
+                                           | Wazuh Server|
+                                           +-------------+
+```
 
 ---
 
-# Prerequisites
+## Detection Goal
 
-- Wazuh Manager operational
+Verify that PowerShell execution on the Windows endpoint is successfully collected by Sysmon and forwarded to Wazuh for security monitoring and analysis.
+
+---
+
+## Attack Scenario
+
+A user or attacker executes PowerShell commands on the Windows endpoint. The activity is monitored by Sysmon and forwarded to Wazuh, allowing analysts to investigate PowerShell execution.
+
+---
+
+## Prerequisites
+
+- Wazuh Manager installed and running
 - Windows Agent connected
 - Sysmon installed
-- PowerShell available
-- Windows Security logs forwarded to Wazuh
+- Windows Security logs enabled
+- Wazuh Dashboard accessible
+- Kali and Windows VMs operational
 
 ---
 
-# Detection Workflow
+## Attack Steps
 
-1. Execute PowerShell commands.
-2. Windows generates PowerShell-related events.
-3. Sysmon records process creation.
-4. Wazuh Agent collects the logs.
-5. Wazuh analyzes the events.
-6. Alerts are generated.
-7. SOC analyst investigates the activity.
+This section will be updated after performing the lab.
 
----
+### Commands Executed
 
-# Attack Simulation
-
-This section will be updated after completing the practical lab.
+```
+(To be added after the lab)
+```
 
 ---
 
-# Evidence Collected
+## Wazuh Detection
 
-The following evidence will be collected:
+This section will be updated after the attack.
 
-- PowerShell execution
-- Wazuh alerts
-- Rule details
-- Sysmon logs
-- Event logs
-- Investigation screenshots
+Items to document:
+
+- Rule ID
+- Alert Level
+- Event Source
+- Event ID
+- Process Name
+- Command Line
+- Parent Process
 
 ---
 
-# Wazuh Alert Analysis
+## Log Analysis
 
 This section will include:
 
-- Rule ID
-- Rule Level
-- Rule Description
-- Event ID
-- Detection Status
+- Sysmon Event ID
+- Windows Event ID
+- Process Information
+- Command Line Analysis
+- Timestamp
+- User Account
+- Hostname
 
-> This section will be updated after the practical exercise.
-
----
-
-# Log Analysis
-
-PowerShell execution events generated during the lab will be analyzed to identify:
-
-- Executed command
-- Parent process
-- Process ID
-- User account
-- Event source
-- Detection timeline
+(To be completed after the attack.)
 
 ---
 
-# MITRE ATT&CK Mapping
+## Screenshots
 
-| Tactic | Technique |
-|---------|-----------|
-| Execution | T1059.001 – PowerShell |
+The following screenshots will be added after completing the lab.
 
-Detailed mapping is available in:
-
-MITRE-Mapping/T1059.001-PowerShell.md
-
----
-
-# Skills Demonstrated
-
-- PowerShell Monitoring
-- Wazuh Investigation
-- Sysmon Log Analysis
-- Process Investigation
-- MITRE ATT&CK Mapping
-- SOC Investigation
+- PowerShell execution
+- Wazuh Dashboard alert
+- Event details
+- Rule details
+- Log analysis
 
 ---
 
-# Conclusion
+## Detection Summary
 
-This lab validates Wazuh's capability to monitor PowerShell activity using Windows event logs and Sysmon telemetry, enabling SOC analysts to investigate potentially malicious PowerShell execution.
+| Field | Status |
+|------|--------|
+| PowerShell Executed | Pending |
+| Sysmon Logged Event | Pending |
+| Wazuh Alert Generated | Pending |
+| Log Analysis Completed | Pending |
+| Incident Report Completed | Pending |
+
+---
+
+## Learning Outcome
+
+This lab demonstrates how endpoint telemetry generated by PowerShell execution is collected by Sysmon and analyzed by Wazuh. It highlights the importance of process monitoring and command-line visibility in detecting potentially suspicious PowerShell activity.
+
+---
+
+## References
+
+- MITRE ATT&CK – T1059.001 (PowerShell)
+- Wazuh Documentation
+- Sysmon Documentation
+- Microsoft PowerShell Documentation
