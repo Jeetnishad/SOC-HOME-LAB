@@ -2,9 +2,7 @@
 
 ## Project Overview
 
-This SOC Home Lab project was built to simulate real-world Security Operations Center (SOC) activities using Wazuh SIEM, Windows 10, Kali Linux, Sysmon, and VirtualBox.
-
-The primary objective of this project is to gain hands-on experience in security monitoring, attack detection, log analysis, incident investigation, and MITRE ATT&CK mapping within an isolated and authorized lab environment.
+This SOC Home Lab project was developed to simulate real-world Security Operations Center (SOC) operations using Wazuh SIEM, Windows 10, Kali Linux, Sysmon, and Oracle VirtualBox. The project focuses on gaining practical experience in security monitoring, attack detection, log analysis, incident investigation, and MITRE ATT&CK mapping within an isolated and authorized lab environment.
 
 ---
 
@@ -14,7 +12,7 @@ The primary objective of this project is to gain hands-on experience in security
 |----------|---------|
 | SIEM Platform | Wazuh 4.14.7 |
 | Attacker Machine | Kali Linux |
-| Victim Machine | Windows 10 Home |
+| Victim Machine | Windows 10 |
 | Endpoint Monitoring | Wazuh Agent |
 | Endpoint Telemetry | Sysmon |
 | Virtualization | Oracle VirtualBox |
@@ -34,12 +32,11 @@ Simulate multiple failed Windows authentication attempts and validate Wazuh's ab
 
 ### Detection Results
 
-- Successfully generated multiple failed login attempts.
+- Generated multiple failed login attempts.
 - Windows Security Event ID **4625** was recorded.
-- Wazuh successfully detected the authentication failures.
-- Rule ID **60122** triggered successfully.
-- Rule Level **5** alert generated.
-- Authentication events were successfully investigated.
+- Wazuh successfully detected failed authentication attempts.
+- Authentication events were analyzed through the Wazuh Dashboard.
+- Security logs were investigated and documented.
 
 ### MITRE ATT&CK Mapping
 
@@ -50,18 +47,94 @@ Simulate multiple failed Windows authentication attempts and validate Wazuh's ab
 ### Skills Demonstrated
 
 - Windows Security Log Analysis
-- Wazuh Alert Investigation
 - Authentication Monitoring
+- Wazuh Alert Investigation
 - Event Correlation
-- MITRE ATT&CK Mapping
 - Incident Investigation
+- MITRE ATT&CK Mapping
+
+### Learning Outcome
+
+This lab demonstrated how repeated authentication failures can be monitored and investigated using Windows Security Logs and Wazuh, providing practical experience with credential attack detection and SOC investigation workflows.
+
+---
+
+## LAB 02 – PowerShell Detection
+
+**Status:** ✅ Completed
+
+### Objective
+
+Validate PowerShell execution monitoring using Sysmon and Wazuh by generating PowerShell activity on a Windows endpoint and analyzing the resulting events.
+
+### Detection Results
+
+- Executed PowerShell commands on the Windows endpoint.
+- Sysmon generated Process Creation (Event ID 1).
+- Wazuh successfully collected and displayed PowerShell activity.
+- PowerShell-related events were investigated through the Wazuh Dashboard.
+- Endpoint telemetry was documented for analysis.
+
+### MITRE ATT&CK Mapping
+
+| Tactic | Technique |
+|---------|-----------|
+| Execution | T1059.001 – PowerShell |
+
+### Skills Demonstrated
+
+- PowerShell Monitoring
+- Sysmon Process Analysis
+- Wazuh Log Investigation
+- Endpoint Visibility
+- Event Analysis
+- MITRE ATT&CK Mapping
+
+### Learning Outcome
+
+This lab demonstrated how PowerShell execution generates endpoint telemetry that can be monitored through Sysmon and analyzed in Wazuh, reinforcing practical SOC monitoring and investigation skills.
+
+---
+
+## LAB 03 – Nmap Reconnaissance Detection
+
+**Status:** ✅ Completed
+
+### Objective
+
+Simulate a network reconnaissance attack using Nmap from Kali Linux against a Windows 10 endpoint and analyze the generated telemetry using Sysmon and Wazuh.
+
+### Detection Results
+
+- Verified communication between Kali Linux and Windows 10.
+- Successfully executed Basic and Advanced Nmap scans.
+- Sysmon generated Network Connection (Event ID 3).
+- Wazuh successfully collected Windows endpoint telemetry.
+- Reconnaissance activity was analyzed using Wazuh and Sysmon logs.
+
+### MITRE ATT&CK Mapping
+
+| Tactic | Technique |
+|---------|-----------|
+| Discovery | T1046 – Network Service Discovery |
+
+### Skills Demonstrated
+
+- Network Reconnaissance
+- Nmap Scanning
+- Sysmon Network Monitoring
+- Wazuh Log Analysis
+- Network Event Investigation
+- MITRE ATT&CK Mapping
+
+### Learning Outcome
+
+This lab demonstrated how reconnaissance activities generate endpoint network telemetry that can be collected by Sysmon and investigated through Wazuh. It also highlighted the importance of monitoring reconnaissance techniques during the early stages of the cyber attack lifecycle.
 
 ---
 
 # Upcoming Labs
 
-- ⏳ LAB 02 – PowerShell Detection
-- ⏳ LAB 03 – Nmap Detection
 - ⏳ LAB 04 – Reverse Shell Detection
 - ⏳ LAB 05 – File Integrity Monitoring
 - ⏳ LAB 06 – Suspicious Process Detection
@@ -81,136 +154,12 @@ Simulate multiple failed Windows authentication attempts and validate Wazuh's ab
 | Windows Agent Configuration | ✅ Completed |
 | Sysmon Configuration | ✅ Completed |
 | LAB 01 | ✅ Completed |
+| LAB 02 | ✅ Completed |
+| LAB 03 | ✅ Completed |
 | Remaining Detection Labs | ⏳ In Progress |
 
 ---
 
-# Conclusion
+# Overall Project Progress
 
-The first detection lab successfully demonstrated Wazuh's capability to monitor Windows authentication events, detect failed login attempts, and provide actionable security alerts for investigation. Future labs will expand the SOC Home Lab by covering PowerShell monitoring, network reconnaissance detection, reverse shell activity, file integrity monitoring, persistence techniques, threat hunting, malware simulation, and USB device monitoring.
-
-
-# LAB-02 – PowerShell Detection
-
-## Status
-
-**Completed**
-
----
-
-## Objective
-
-The objective of this lab was to validate PowerShell execution monitoring using Sysmon and Wazuh. The exercise focused on generating PowerShell activity on a Windows 10 endpoint, verifying log collection, and investigating the resulting events through the Wazuh Dashboard.
-
----
-
-## Environment
-
-| Component | Details |
-|----------|----------|
-| SIEM | Wazuh 4.14.7 |
-| Endpoint | Windows 10 |
-| Attacker Machine | Kali Linux |
-| Endpoint Monitoring | Sysmon |
-| Agent | Wazuh Agent |
-| Virtualization | VirtualBox |
-
----
-
-## Activity Performed
-
-The following PowerShell commands were executed on the Windows endpoint:
-
-```powershell
-Get-Process
-```
-
-```powershell
-Get-ChildItem C:\Windows
-```
-
-These commands generated PowerShell process creation events that were captured by Sysmon and collected by Wazuh for analysis.
-
----
-
-## Detection Workflow
-
-PowerShell Execution
-
-↓
-
-Sysmon Process Creation Event (Event ID 1)
-
-↓
-
-Wazuh Agent
-
-↓
-
-Wazuh Manager
-
-↓
-
-Wazuh Dashboard
-
-↓
-
-SOC Investigation
-
----
-
-## Evidence Collected
-
-- Sysmon Process Creation Events
-- Windows Event Logs
-- Wazuh Dashboard Events
-- PowerShell command execution
-- Wazuh PowerShell-related rules
-- Event Viewer screenshots
-- Wazuh Dashboard screenshots
-
----
-
-## MITRE ATT&CK Mapping
-
-| Tactic | Technique | ID |
-|---------|-----------|----|
-| Execution | PowerShell | T1059.001 |
-
----
-
-## Skills Demonstrated
-
-- Windows Event Log Analysis
-- Sysmon Monitoring
-- Wazuh Log Analysis
-- Endpoint Visibility
-- PowerShell Monitoring
-- MITRE ATT&CK Mapping
-- Incident Investigation
-- SOC Alert Analysis
-
----
-
-## Learning Outcome
-
-This lab provided practical experience in monitoring PowerShell activity using Sysmon and Wazuh. It demonstrated how endpoint telemetry can be collected, investigated, and documented following a standard SOC workflow. The activity was successfully mapped to MITRE ATT&CK Technique T1059.001, reinforcing knowledge of execution-related detections.
-
----
-
-## Screenshots
-
-- lab02-01-sysmon-process-create.png
-- lab02-02-sysmon-event-details.png
-- lab02-03-powershell-get-process.png
-- lab02-04-powershell-get-childitem.png
-- lab02-05-wazuh-sysmon-events.png
-- lab02-06-wazuh-powershell-search.png
-- lab02-07-wazuh-powershell-rule.png
-- lab02-08-wazuh-powershell-rule-details.png
-
----
-
-## Result
-
-The PowerShell Detection Lab was successfully completed. PowerShell execution generated endpoint telemetry that was captured by Sysmon and forwarded to Wazuh for centralized monitoring and investigation. This lab demonstrates practical SOC Analyst skills in endpoint monitoring, event analysis, and MITRE ATT&CK mapping within an isolated home lab environment.
+The SOC Home Lab has successfully established a functional monitoring environment using Wazuh, Sysmon, Windows 10, and Kali Linux. The completed labs demonstrate practical experience in authentication monitoring, PowerShell execution analysis, and network reconnaissance detection. Each exercise follows a structured SOC workflow that includes attack simulation, log collection, event analysis, MITRE ATT&CK mapping, and incident documentation. The remaining labs will further expand the project by covering reverse shells, file integrity monitoring, persistence techniques, threat hunting, malware simulation, and USB device monitoring, creating a comprehensive SOC Analyst portfolio.
