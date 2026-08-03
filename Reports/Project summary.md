@@ -88,3 +88,129 @@ Simulate multiple failed Windows authentication attempts and validate Wazuh's ab
 # Conclusion
 
 The first detection lab successfully demonstrated Wazuh's capability to monitor Windows authentication events, detect failed login attempts, and provide actionable security alerts for investigation. Future labs will expand the SOC Home Lab by covering PowerShell monitoring, network reconnaissance detection, reverse shell activity, file integrity monitoring, persistence techniques, threat hunting, malware simulation, and USB device monitoring.
+
+
+# LAB-02 – PowerShell Detection
+
+## Status
+
+**Completed**
+
+---
+
+## Objective
+
+The objective of this lab was to validate PowerShell execution monitoring using Sysmon and Wazuh. The exercise focused on generating PowerShell activity on a Windows 10 endpoint, verifying log collection, and investigating the resulting events through the Wazuh Dashboard.
+
+---
+
+## Environment
+
+| Component | Details |
+|----------|----------|
+| SIEM | Wazuh 4.14.7 |
+| Endpoint | Windows 10 |
+| Attacker Machine | Kali Linux |
+| Endpoint Monitoring | Sysmon |
+| Agent | Wazuh Agent |
+| Virtualization | VirtualBox |
+
+---
+
+## Activity Performed
+
+The following PowerShell commands were executed on the Windows endpoint:
+
+```powershell
+Get-Process
+```
+
+```powershell
+Get-ChildItem C:\Windows
+```
+
+These commands generated PowerShell process creation events that were captured by Sysmon and collected by Wazuh for analysis.
+
+---
+
+## Detection Workflow
+
+PowerShell Execution
+
+↓
+
+Sysmon Process Creation Event (Event ID 1)
+
+↓
+
+Wazuh Agent
+
+↓
+
+Wazuh Manager
+
+↓
+
+Wazuh Dashboard
+
+↓
+
+SOC Investigation
+
+---
+
+## Evidence Collected
+
+- Sysmon Process Creation Events
+- Windows Event Logs
+- Wazuh Dashboard Events
+- PowerShell command execution
+- Wazuh PowerShell-related rules
+- Event Viewer screenshots
+- Wazuh Dashboard screenshots
+
+---
+
+## MITRE ATT&CK Mapping
+
+| Tactic | Technique | ID |
+|---------|-----------|----|
+| Execution | PowerShell | T1059.001 |
+
+---
+
+## Skills Demonstrated
+
+- Windows Event Log Analysis
+- Sysmon Monitoring
+- Wazuh Log Analysis
+- Endpoint Visibility
+- PowerShell Monitoring
+- MITRE ATT&CK Mapping
+- Incident Investigation
+- SOC Alert Analysis
+
+---
+
+## Learning Outcome
+
+This lab provided practical experience in monitoring PowerShell activity using Sysmon and Wazuh. It demonstrated how endpoint telemetry can be collected, investigated, and documented following a standard SOC workflow. The activity was successfully mapped to MITRE ATT&CK Technique T1059.001, reinforcing knowledge of execution-related detections.
+
+---
+
+## Screenshots
+
+- lab02-01-sysmon-process-create.png
+- lab02-02-sysmon-event-details.png
+- lab02-03-powershell-get-process.png
+- lab02-04-powershell-get-childitem.png
+- lab02-05-wazuh-sysmon-events.png
+- lab02-06-wazuh-powershell-search.png
+- lab02-07-wazuh-powershell-rule.png
+- lab02-08-wazuh-powershell-rule-details.png
+
+---
+
+## Result
+
+The PowerShell Detection Lab was successfully completed. PowerShell execution generated endpoint telemetry that was captured by Sysmon and forwarded to Wazuh for centralized monitoring and investigation. This lab demonstrates practical SOC Analyst skills in endpoint monitoring, event analysis, and MITRE ATT&CK mapping within an isolated home lab environment.
