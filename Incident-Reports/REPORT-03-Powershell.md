@@ -1,12 +1,8 @@
-# Incident Report 02 – PowerShell Activity Detection
+# Incident Report 02 – PowerShell Execution Detection
 
-## Executive Summary
+## Incident Summary
 
-This incident report documents the detection and investigation of PowerShell activity performed within an authorized SOC Home Lab environment.
-
-The objective of this exercise was to validate Wazuh's capability to monitor PowerShell execution, collect endpoint telemetry through Sysmon, and generate security alerts for analyst investigation.
-
-The activity was performed in a controlled lab environment, and no unauthorized actions were executed.
+A PowerShell execution event was detected on the Windows 10 endpoint monitored by Wazuh. The activity was captured through Sysmon and forwarded to the Wazuh Manager for analysis. This lab validates the organization's ability to detect PowerShell execution and investigate endpoint telemetry.
 
 ---
 
@@ -15,141 +11,132 @@ The activity was performed in a controlled lab environment, and no unauthorized 
 | Field | Value |
 |--------|-------|
 | Incident ID | IR-002 |
-| Incident Name | PowerShell Activity Detection |
-| Category | Command and Script Interpreter |
-| Severity | To be updated |
-| Status | Closed |
-| Environment | Authorized SOC Home Lab |
-| Detection Tool | Wazuh SIEM 4.14.7 |
-| Endpoint | Windows 10 Home |
-| Log Source | Sysmon / Windows Event Logs |
+| Incident Name | PowerShell Execution Detection |
+| Severity | Medium *(To be verified after alert generation)* |
+| Status | Closed (Lab Simulation) |
+| Detection Source | Wazuh + Sysmon |
+| Endpoint | Windows 10 |
+| Analyst | Jeet Nishad |
+| Date | *(To be updated after lab)* |
 
 ---
 
-# Incident Description
-
-PowerShell commands were intentionally executed on the monitored Windows endpoint to generate endpoint telemetry for detection testing.
-
-The generated events were collected by Sysmon and forwarded to the Wazuh Manager through the Wazuh Agent.
-
-Wazuh analyzed the events and generated alerts that enabled the activity to be investigated.
-
----
-
-# Detection Summary
-
-PowerShell execution activity was detected through Windows event logs and Sysmon process creation events.
-
-The generated alerts confirmed that PowerShell execution was successfully monitored within the SOC Home Lab environment.
-
----
-
-# Timeline of Events
+# Detection Timeline
 
 | Time | Activity |
 |------|----------|
-| PowerShell Executed | To be updated |
-| Event Generated | To be updated |
-| Wazuh Alert Generated | To be updated |
-| Investigation Started | To be updated |
-| Investigation Completed | To be updated |
+| T0 | PowerShell command executed |
+| T1 | Sysmon generated process creation event |
+| T2 | Wazuh Agent forwarded the log |
+| T3 | Wazuh generated alert |
+| T4 | SOC analyst investigated the event |
+
+*(Actual timestamps will be updated after completing the lab.)*
 
 ---
 
-# Affected Assets
+# Investigation
 
-| Asset | Description |
-|--------|-------------|
-| Windows 10 Home | Monitored Endpoint |
-| Wazuh Agent | Log Collection |
-| Sysmon | Endpoint Telemetry |
-| Wazuh Manager | Alert Generation |
-| Wazuh Dashboard | Alert Investigation |
+## Initial Observation
+
+PowerShell execution was detected on the monitored endpoint. Wazuh generated an alert based on process creation logs collected from Sysmon.
 
 ---
 
-# Indicators of Compromise (IoCs)
+## Indicators Observed
 
-The following information will be collected during the investigation:
+The following information will be collected after the lab:
 
-- PowerShell process execution
-- Process ID
+- Process Name
 - Parent Process
 - Command Line
-- Wazuh Rule ID
-- Alert Level
-
-> This section will be updated after completing the practical lab.
+- Process ID (PID)
+- User Account
+- Computer Name
+- Event ID
+- Rule ID
 
 ---
 
-# Investigation Findings
+## Evidence Collected
 
-The investigation will verify:
+The following evidence will be added after performing the lab:
 
-- PowerShell execution
-- Parent process
-- Command line arguments
-- Wazuh rule triggered
-- Alert severity
-- Event source
-- Process creation details
+- PowerShell command executed
+- Wazuh alert details
+- Sysmon event
+- Windows Event Log
+- Dashboard screenshots
 
 ---
 
 # Root Cause Analysis
 
-The PowerShell activity was intentionally executed as part of a controlled SOC Home Lab exercise to validate detection capabilities.
-
-No malicious activity occurred outside the authorized testing environment.
+This activity was intentionally generated inside an isolated SOC Home Lab to validate PowerShell detection capabilities. No unauthorized access or malicious compromise occurred.
 
 ---
 
-# Response Actions
+# Impact Assessment
 
-The following actions were performed:
-
-- Reviewed Wazuh alerts
-- Verified Sysmon logs
-- Investigated process creation
-- Correlated PowerShell events
-- Documented investigation findings
+- No production systems affected
+- No data loss
+- No persistence established
+- No privilege escalation performed
+- Controlled lab environment
 
 ---
 
-# MITRE ATT&CK Mapping
+# Containment
 
-| Tactic | Technique |
-|---------|-----------|
-| Execution | T1059.001 – PowerShell |
+No containment actions were required because this was an authorized security validation exercise.
 
-Detailed mapping is available in:
+---
 
-MITRE-Mapping/T1059.001-PowerShell.md
+# Eradication
+
+Not applicable.
+
+---
+
+# Recovery
+
+Not applicable.
 
 ---
 
 # Lessons Learned
 
-- PowerShell activity can be effectively monitored using Sysmon.
-- Wazuh provides visibility into PowerShell execution.
-- Endpoint telemetry improves SOC investigations.
-- PowerShell monitoring should be enabled in production environments.
+- Confirm Sysmon captures PowerShell process creation events.
+- Validate Wazuh rule coverage for PowerShell execution.
+- Improve analyst familiarity with PowerShell telemetry.
+- Verify command-line logging for investigations.
 
 ---
 
-# Recommendations
+# MITRE ATT&CK Mapping
 
-- Enable PowerShell logging.
-- Monitor suspicious PowerShell commands.
-- Investigate encoded or obfuscated PowerShell activity.
-- Continuously validate SIEM detection rules.
-- Correlate PowerShell events with other endpoint activity.
+| Technique | ID |
+|-----------|----|
+| PowerShell | T1059.001 |
 
 ---
 
-# Conclusion
+# Incident Status
 
-The PowerShell detection exercise successfully demonstrated Wazuh's ability to monitor PowerShell execution and provide meaningful telemetry for security investigations.
+**Closed**
 
-The collected evidence will be used to complete the MITRE ATT&CK mapping and document the overall investigation.
+Reason:
+
+This was a planned detection validation conducted within the SOC Home Lab.
+
+---
+
+# Appendix
+
+The following items will be attached after completing the lab:
+
+- Screenshot of PowerShell execution
+- Wazuh alert screenshot
+- Event details screenshot
+- Relevant Sysmon event
+- MITRE mapping
