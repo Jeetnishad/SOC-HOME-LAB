@@ -176,7 +176,6 @@ This lab demonstrated how reverse shell activity generates endpoint telemetry th
 
 The SOC Home Lab has successfully established a functional monitoring environment using Wazuh, Sysmon, Windows 10, and Kali Linux. The completed labs demonstrate practical experience in authentication monitoring, PowerShell execution analysis, and network reconnaissance detection. Each exercise follows a structured SOC workflow that includes attack simulation, log collection, event analysis, MITRE ATT&CK mapping, and incident documentation. The remaining labs will further expand the project by covering reverse shells, file integrity monitoring, persistence techniques, threat hunting, malware simulation, and USB device monitoring, creating a comprehensive SOC Analyst portfolio.
 
-# Project Summary
 
 ## LAB 05 – File Integrity Monitoring (FIM)
 
