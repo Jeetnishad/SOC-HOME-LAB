@@ -175,3 +175,75 @@ Simulate a reverse shell attack using Netcat (Ncat) from a Windows 10 endpoint t
 This lab demonstrated how reverse shell activity generates endpoint telemetry that can be captured by Sysmon and investigated through Wazuh SIEM. The exercise provided hands-on experience in detecting suspicious process execution, analyzing security events, and mapping attacker behavior to the MITRE ATT&CK framework. It also strengthened practical SOC Analyst skills in incident investigation, endpoint visibility, and threat detection within a controlled home lab environment.
 
 The SOC Home Lab has successfully established a functional monitoring environment using Wazuh, Sysmon, Windows 10, and Kali Linux. The completed labs demonstrate practical experience in authentication monitoring, PowerShell execution analysis, and network reconnaissance detection. Each exercise follows a structured SOC workflow that includes attack simulation, log collection, event analysis, MITRE ATT&CK mapping, and incident documentation. The remaining labs will further expand the project by covering reverse shells, file integrity monitoring, persistence techniques, threat hunting, malware simulation, and USB device monitoring, creating a comprehensive SOC Analyst portfolio.
+
+# Project Summary
+
+## LAB 05 – File Integrity Monitoring (FIM)
+
+### Objective
+
+The objective of this lab was to configure and validate Wazuh File Integrity Monitoring (FIM) on a Windows endpoint. The lab focused on detecting file creation, file modification, and file deletion events within a monitored directory to simulate real-world endpoint monitoring performed by Security Operations Center (SOC) analysts.
+
+---
+
+## Environment
+
+| Component | Details |
+|-----------|---------|
+| SIEM Platform | Wazuh |
+| Wazuh Manager | Kali Linux |
+| Endpoint | Windows 10 |
+| Monitoring Module | Syscheck (File Integrity Monitoring) |
+| Test Directory | C:\FIM |
+
+---
+
+## Activities Performed
+
+- Created a dedicated monitoring directory (`C:\FIM`).
+- Configured Wazuh Agent for real-time File Integrity Monitoring.
+- Restarted the Wazuh Agent to apply the configuration.
+- Created a test file (`Important-Data.txt`).
+- Modified the file to simulate unauthorized changes.
+- Deleted the monitored file.
+- Verified all alerts in the Wazuh Dashboard.
+
+---
+
+## Detection Results
+
+| Activity | Detection Status |
+|----------|------------------|
+| File Creation | ✅ Detected |
+| File Modification | ✅ Detected |
+| File Deletion | ✅ Detected |
+
+---
+
+## Wazuh Alerts Observed
+
+| Rule ID | Description | Level |
+|---------|-------------|------:|
+| 554 | File added to the system | 5 |
+| 550 | Integrity checksum changed | 7 |
+| File Deletion | File removed from monitored directory | Generated |
+
+---
+
+## Skills Demonstrated
+
+- File Integrity Monitoring (FIM)
+- Wazuh Syscheck Configuration
+- Windows Endpoint Monitoring
+- Security Event Analysis
+- Alert Investigation
+- Blue Team Detection
+- SOC Incident Documentation
+- MITRE ATT&CK Mapping
+
+---
+
+## Learning Outcome
+
+This lab demonstrated how Wazuh File Integrity Monitoring detects unauthorized file system activity in real time. By monitoring a dedicated directory, the platform successfully identified file creation, modification, and deletion events, providing the visibility required for effective incident detection and investigation.
+
