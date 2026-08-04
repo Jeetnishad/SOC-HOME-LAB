@@ -131,35 +131,47 @@ Simulate a network reconnaissance attack using Nmap from Kali Linux against a Wi
 
 This lab demonstrated how reconnaissance activities generate endpoint network telemetry that can be collected by Sysmon and investigated through Wazuh. It also highlighted the importance of monitoring reconnaissance techniques during the early stages of the cyber attack lifecycle.
 
----
 
-# Upcoming Labs
 
-- ⏳ LAB 04 – Reverse Shell Detection
-- ⏳ LAB 05 – File Integrity Monitoring
-- ⏳ LAB 06 – Suspicious Process Detection
-- ⏳ LAB 07 – Persistence Detection
-- ⏳ LAB 08 – Threat Hunting
-- ⏳ LAB 09 – EICAR Test
-- ⏳ LAB 10 – USB Monitoring
+## LAB 04 – Reverse Shell Detection
 
----
+**Status:** ✅ Completed
 
-# Current Project Status
+### Objective
 
-| Category | Status |
-|----------|--------|
-| Environment Setup | ✅ Completed |
-| Wazuh Installation | ✅ Completed |
-| Windows Agent Configuration | ✅ Completed |
-| Sysmon Configuration | ✅ Completed |
-| LAB 01 | ✅ Completed |
-| LAB 02 | ✅ Completed |
-| LAB 03 | ✅ Completed |
-| Remaining Detection Labs | ⏳ In Progress |
+Simulate a reverse shell attack using Netcat (Ncat) from a Windows 10 endpoint to a Kali Linux attacker machine and investigate the generated endpoint telemetry using Sysmon and Wazuh SIEM.
 
----
+### Detection Results
 
-# Overall Project Progress
+- Verified communication between the Windows endpoint and Kali Linux attacker.
+- Successfully started a Netcat listener on Kali Linux.
+- Established a reverse shell from Windows to Kali Linux.
+- Executed remote commands (`whoami`, `hostname`, and `ipconfig`) through the reverse shell.
+- Sysmon generated Process Creation (Event ID 1) telemetry.
+- Wazuh successfully collected endpoint logs and generated alerts for abnormal command prompt execution.
+- Reverse shell activity was investigated using the Wazuh Threat Hunting module.
+
+### MITRE ATT&CK Mapping
+
+| Tactic | Technique |
+|---------|-----------|
+| Execution | T1059.003 – Windows Command Shell |
+| Command and Control | T1105 – Ingress Tool Transfer |
+
+### Skills Demonstrated
+
+- Reverse Shell Simulation
+- Netcat (Ncat)
+- Windows Process Monitoring
+- Sysmon Event Analysis
+- Wazuh Threat Hunting
+- Alert Investigation
+- Endpoint Detection
+- MITRE ATT&CK Mapping
+- SOC Incident Investigation
+
+### Learning Outcome
+
+This lab demonstrated how reverse shell activity generates endpoint telemetry that can be captured by Sysmon and investigated through Wazuh SIEM. The exercise provided hands-on experience in detecting suspicious process execution, analyzing security events, and mapping attacker behavior to the MITRE ATT&CK framework. It also strengthened practical SOC Analyst skills in incident investigation, endpoint visibility, and threat detection within a controlled home lab environment.
 
 The SOC Home Lab has successfully established a functional monitoring environment using Wazuh, Sysmon, Windows 10, and Kali Linux. The completed labs demonstrate practical experience in authentication monitoring, PowerShell execution analysis, and network reconnaissance detection. Each exercise follows a structured SOC workflow that includes attack simulation, log collection, event analysis, MITRE ATT&CK mapping, and incident documentation. The remaining labs will further expand the project by covering reverse shells, file integrity monitoring, persistence techniques, threat hunting, malware simulation, and USB device monitoring, creating a comprehensive SOC Analyst portfolio.
